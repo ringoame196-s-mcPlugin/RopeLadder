@@ -10,7 +10,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
@@ -38,7 +37,7 @@ class BlockPlaceEvent(private val plugin: Plugin) : Listener {
                 placeLocation.add(0.0, -1.0, 0.0)
                 val placeBlock = placeLocation.block // 設置予定ブロック
 
-                if (canPlaceLadder(inventory, placeBlock) && placeCount < maxSize) {
+                if (canPlaceLadder(player, placeBlock) && placeCount < maxSize) {
                     if (player.gameMode != GameMode.CREATIVE) inventory.removeItem(ladderItem)
                     placeLadder(placeBlock, block)
                     player.playSound(player, sound, 1f, 1f)
@@ -52,11 +51,13 @@ class BlockPlaceEvent(private val plugin: Plugin) : Listener {
         }.runTaskTimer(plugin, 0L, 8L)
     }
 
-    private fun canPlaceLadder(inventory: Inventory, placeBlock: Block): Boolean {
-        return placeBlock.type == Material.AIR && isHaveLadder(inventory)
+    private fun canPlaceLadder(player: Player, placeBlock: Block): Boolean {
+        return placeBlock.type == Material.AIR && isHaveLadder(player)
     }
 
-    private fun isHaveLadder(inventory: Inventory): Boolean {
+    private fun isHaveLadder(player: Player): Boolean {
+        val inventory = player.inventory
+        if (player.gameMode == GameMode.CREATIVE) return true
         for (playerItem in inventory) {
             playerItem ?: continue
             if (playerItem.type == Material.LADDER) return true
