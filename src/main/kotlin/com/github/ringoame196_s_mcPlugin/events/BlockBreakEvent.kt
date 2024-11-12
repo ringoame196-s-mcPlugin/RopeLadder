@@ -2,6 +2,7 @@ package com.github.ringoame196_s_mcPlugin.events
 
 import com.github.ringoame196_s_mcPlugin.DataConst
 import org.bukkit.ChatColor
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
@@ -45,7 +46,7 @@ class BlockBreakEvent(plugin: Plugin) : Listener {
             val sound = Sound.BLOCK_SCAFFOLDING_BREAK
             val item = ItemStack(Material.LADDER, breakCount + 1)
             val message = "${ChatColor.AQUA} ${breakCount}個のはしごを回収しました"
-            player.inventory.addItem(item)
+            if (player.gameMode != GameMode.CREATIVE) player.inventory.addItem(item)
             player.sendMessage(message)
             player.playSound(player, sound, 1f, 1f)
         }

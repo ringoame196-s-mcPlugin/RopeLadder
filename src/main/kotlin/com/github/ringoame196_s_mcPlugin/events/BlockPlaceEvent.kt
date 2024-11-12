@@ -2,6 +2,7 @@ package com.github.ringoame196_s_mcPlugin.events
 
 import com.github.ringoame196_s_mcPlugin.DataConst
 import org.bukkit.ChatColor
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
@@ -38,8 +39,8 @@ class BlockPlaceEvent(private val plugin: Plugin) : Listener {
                 val placeBlock = placeLocation.block // 設置予定ブロック
 
                 if (canPlaceLadder(inventory, placeBlock) && placeCount < maxSize) {
+                    if (player.gameMode != GameMode.CREATIVE) inventory.removeItem(ladderItem)
                     placeLadder(placeBlock, block)
-                    inventory.removeItem(ladderItem)
                     player.playSound(player, sound, 1f, 1f)
                     placeCount++
                 } else {

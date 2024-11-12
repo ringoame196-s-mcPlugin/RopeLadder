@@ -1,5 +1,6 @@
 package com.github.ringoame196_s_mcPlugin
 
+import com.github.ringoame196_s_mcPlugin.events.BlockBreakEvent
 import com.github.ringoame196_s_mcPlugin.events.BlockPlaceEvent
 import org.bukkit.plugin.java.JavaPlugin
 
