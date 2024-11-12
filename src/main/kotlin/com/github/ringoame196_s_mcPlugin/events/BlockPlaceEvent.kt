@@ -28,7 +28,7 @@ class BlockPlaceEvent(private val plugin: Plugin) : Listener {
 
         val placeLocation = block.location
         val ladderItem = ItemStack(Material.LADDER)
-        var placeCount = 1 // 設置ブロック数
+        var placeCount = 0 // 設置ブロック数
         val sound = Sound.BLOCK_SCAFFOLDING_FALL
 
         object : BukkitRunnable() {
@@ -37,12 +37,13 @@ class BlockPlaceEvent(private val plugin: Plugin) : Listener {
                 placeLocation.add(0.0, -1.0, 0.0)
                 val placeBlock = placeLocation.block // 設置予定ブロック
 
-                if (canPlaceLadder(inventory, placeBlock) && placeCount != maxSize) {
+                if (canPlaceLadder(inventory, placeBlock) && placeCount < maxSize) {
                     placeLadder(placeBlock, block)
                     inventory.removeItem(ladderItem)
                     player.playSound(player, sound, 1f, 1f)
                     placeCount++
                 } else {
+                    if (placeCount == 0) return
                     sendEndMessage(player, placeCount)
                     cancel()
                 }
