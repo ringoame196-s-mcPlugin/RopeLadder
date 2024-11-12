@@ -9,5 +9,6 @@ class Main : JavaPlugin() {
         val plugin = this
         saveDefaultConfig()
         server.pluginManager.registerEvents(BlockPlaceEvent(plugin), plugin)
+        server.pluginManager.registerEvents(BlockBreakEvent(plugin), plugin)
     }
 }
